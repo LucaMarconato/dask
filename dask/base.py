@@ -1305,12 +1305,13 @@ def register_pandas():
             s.dtype,
             normalize_token(s._values),
             normalize_token(s.index),
+            normalize_token(s.attrs),
         ]
 
     @normalize_token.register(pd.DataFrame)
     def normalize_dataframe(df):
         mgr = df._mgr
-        data = list(mgr.arrays) + [df.columns, df.index]
+        data = list(mgr.arrays) + [df.columns, df.index] + [df.attrs]
         return list(map(normalize_token, data))
 
     @normalize_token.register(pd.api.extensions.ExtensionArray)
